@@ -1,98 +1,95 @@
-#include<stdio.h>
-#include<stdbool.h>
-#include<string.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#include <stdlib.h>
 
-struct node{
+int inscheck = 0;
+struct node
+{
     int phoneNumber;
     char name[20];
-    struct node *newnode;
+    struct node *next;
 };
 
-
-struct node* insAtBeg(char x[20],int number, struct node *first){  //insert at begining of newnodeed list
-	struct node *new;
-	new=(struct node*)malloc(sizeof(struct node));
-	if(new == NULL){
-		printf("overfowed\n");
-		return first;
-	}
-	else{
-        for(int i=0;i<20;i++)
-		    new->name[i]=x[i];
-        new->phoneNumber = number;
-		new->newnode=first;	
-		return new;
-	}
-}
-
-bool search(char x[20]){
+struct node *insAtBeg(char x[20], int number, struct node *first)
+{
     struct node *new;
-    new =(struct node*) malloc(sizeof(struct node));
-    if(new->name == x){
-        return true;
+    new = (struct node *)malloc(sizeof(struct node));
+    if (new == NULL)
+    {
+        printf("Overflowed\n");
+        return first;
     }
-    else{
-        return false;
+    else
+    {
+        for (int i = 0; i < 20; i++)
+            new->name[i] = x[i];
+        new->phoneNumber = number;
+        new->next = first;
+        inscheck++;
+        return new;
     }
 }
 
-// void sort(struct node *first){
-//     if()
+bool search(char x[20])
+{
+    bool mybool;
+    struct node *new;
+    new = (struct node *)malloc(sizeof(struct node));
+    while (new != NULL)
+    {
 
-// }
+        if (new->name == x)
+        {
+            mybool = true;
+            printf("here\n");
+            break;
+        }
+        else
+        {
+            mybool = false;
+            printf("why here\n");
+        }
+        new = new->next;
+    }
 
-struct node* insOrd(char x[20],int number, struct node *first){    //inserts in ordered newnodeed list in ordered manner
-	struct node *new;
-	new=(struct node*)malloc(sizeof(struct node));
-	struct node *save;
-	
-	save= first;
-	
-	if(save == NULL){
-		printf("empty\n");
-		return new;
-	}
-	
+    if (mybool)
+        return mybool;
 
-    for(int i=0;i<20;i++)
-        new->name[i]=x[i];	
-    new->phoneNumber = number;
-	if(new->name <= first->name){
-		new->newnode=first;
-		return new;
-	}
-	
-	while(save->newnode != NULL && new->name >= save->newnode->name){
-		save=save->newnode;
-	}
-	
-	new->newnode =save->newnode;
-	save->newnode=new;
-	return first;
+    else
+        return mybool;
 }
-int main(){
+
+int main()
+{
     int option;
     int number;
     char name[20];
-    struct node * first;
+    struct node *first, *check;
 
-	first = (struct node*)malloc(sizeof(struct node));
-    while(1){
-        printf("Enter :\n1 to insert\n2 to search\n3 to read\n4 to sort\n5 to delete\n");
-        scanf("%d",&option);
+    first = (struct node *)malloc(sizeof(struct node));
+    while (1)
+    {
+        printf("\nEnter :\n1 to insert\n2 to search\n3 to read\n4 to sort\n5 to delete\n");
+        scanf("%d", &option);
         switch (option)
         {
         case 1:
             printf("insertion\n");
-            printf("enter name:");
-            scanf("%s",name);
-            printf("enter number:");
-            scanf("%d",number);
-            insAtBeg(name, number, first );
+            printf("\nenter name:");
+            scanf("%s", name);
+            printf("\nenter number:");
+            scanf("%d", &number);
+            if (inscheck == 0)
+                insAtBeg(name, number, first);
+            // else
+
             break;
         case 2:
             printf("search");
+            printf("\nwhom do you want to search:");
+            scanf("%s", name);
+            printf("%d", search(name));
             break;
         case 3:
             printf("read");
@@ -104,9 +101,8 @@ int main(){
             printf("delete");
             break;
         default:
-        printf("invalid option");
+            printf("invalid option");
             break;
         }
-        
     }
 }
