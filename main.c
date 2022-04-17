@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-int inscheck = 0;
 struct node
 {
     long phoneNumber;
@@ -11,11 +10,10 @@ struct node
     struct node *next;
 };
 
-struct node *insAtBeg(char x[20], int number, struct node *first)
+struct node *insAtBeg(char *x, int number, struct node *first)
 {
     struct node *new;
     new = (struct node *)malloc(sizeof(struct node));
-    // printf("\n\n%s\t%ld\n\n",x,number);
     if (new == NULL)
     {
         printf("Overflowed\n");
@@ -27,30 +25,30 @@ struct node *insAtBeg(char x[20], int number, struct node *first)
             new->name[i] = x[i];
         new->phoneNumber = number;
         new->next = first;
-        inscheck++;
         return new;
     }
 }
 
-bool search(char x[20], struct node *first)
+void display(){
+
+}
+int search(char *x, struct node *first)
 {
     bool mybool;
     while (first != NULL)
     {
         printf("\n\n%s\t%ld\n\n",first->name,first->phoneNumber);
-
-        // if (first->name == x)
-        // {
-        //     mybool = true;
-        //     printf("here\n");
-        //     break;
-        // }
-        // else
-        // {
-        //     mybool = false;
-
-        //     printf("why here\n");
-        // }
+        if (strcmp(first->name, x) == 0)
+        {
+            mybool = true;
+            printf("here\n");
+            break;
+        }
+        else
+        {
+            mybool = false;
+            printf("why here\n");
+        }
         first = first->next;
     }
 
@@ -71,12 +69,6 @@ int main()
     first = (struct node *)malloc(sizeof(struct node));
     second = (struct node *)malloc(sizeof(struct node));
     third = (struct node *)malloc(sizeof(struct node));
-    strcpy(first->name,"nirmal");
-    first->phoneNumber = 90;
-    strcpy(second->name, "abd");
-    second->phoneNumber = 90;
-    strcpy(third->name, "xyz");
-    third->phoneNumber = 90;
     while (1)
     {
         printf("\nEnter :\n1 to insert\n2 to search\n3 to read\n4 to sort\n5 to delete\n");
@@ -89,9 +81,7 @@ int main()
             scanf("%s", name);
             printf("\nenter number:");
             scanf("%d", &number);
-            if (inscheck == 0)
-                insAtBeg(name, number, first);
-            // else
+                first = insAtBeg(name, number, first);
 
             break;
         case 2:
@@ -115,3 +105,13 @@ int main()
         }
     }
 }
+    // first=insAtBeg(strcpy(first->name,"nirmal"),9927,first);
+    // second=insAtBeg(strcpy(first->name,"axyhzbc"),99127,first);
+    // third=insAtBeg(strcpy(first->name,"nirmal"),991127,first);
+    // printf("%d",search("nirmal",first));
+    // return 0;
+    // // first->phoneNumber = 90;
+    // strcpy(second->name, "abd");
+    // second->phoneNumber = 90;
+    // strcpy(third->name, "xyz");
+    // third->phoneNumber = 90;
