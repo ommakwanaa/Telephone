@@ -5,12 +5,12 @@
 
 struct node
 {
-    long unsigned int phoneNumber;
+    unsigned long int phoneNumber;
     char name[20];
     struct node *next;
 };
 
-struct node *insAtBeg(char *x, long unsigned int number, struct node *first)
+struct node *insAtBeg(char *x, unsigned long int number, struct node *first)
 {
     struct node *new;
     new = (struct node *)malloc(sizeof(struct node));
@@ -28,7 +28,8 @@ struct node *insAtBeg(char *x, long unsigned int number, struct node *first)
         return new;
     }
 }
-struct node* insOrd(char *x, long unsigned int number, struct node *first){    //inserts in ordered linked list in ordered manner
+struct node* insOrd(char *x, unsigned long int number, struct node *first)
+{    //inserts in ordered linked list in ordered manner
 	
     struct node *new;
 	new = (struct node*)malloc(sizeof(struct node));
@@ -36,7 +37,8 @@ struct node* insOrd(char *x, long unsigned int number, struct node *first){    /
     struct node *save;
 	save = first;
 	
-	if(save == NULL){
+	if(save == NULL)
+    {
 		printf("empty\n");
 		return new;
 	}
@@ -45,12 +47,14 @@ struct node* insOrd(char *x, long unsigned int number, struct node *first){    /
         new->name[i] = x[i];
     new->phoneNumber = number;
 	
-	if(new->name[0] <= first->name[0]){
+	if(strcmp(new->name,  first->name) < 0 )
+    {
 		new->next=first;
 		return new;
 	}
 	
-	while(save->next != NULL && new->name[0] >= save->next->name[0]){
+	while(save->next != NULL && strcmp(new->name, save->next->name) > 0)
+    {
 		save=save->next;
 	}
 	
@@ -59,8 +63,10 @@ struct node* insOrd(char *x, long unsigned int number, struct node *first){    /
 	return first;
 }
 
-void display(struct node *first){
-    while(first != NULL){
+void display(struct node *first)
+{
+    while(first != NULL)
+    {
         printf("\n\n%s\t%ld\n\n",first->name,first->phoneNumber);
         first = first -> next;
     }
@@ -70,17 +76,17 @@ int search(char *x, struct node *first)
     bool mybool;
     while (first != NULL)
     {
-        printf("\n\n%s\t%ld\n\n",first->name,first->phoneNumber);
+        // printf("\n\n%s\t%ld\n\n",first->name,first->phoneNumber);
         if (strcmp(first->name, x) == 0)
         {
             mybool = true;
-            printf("here\n");
+            // printf("here\n");
             break;
         }
         else
         {
             mybool = false;
-            printf("why here\n");
+            // printf("why here\n");
         }
         first = first->next;
     }
@@ -92,10 +98,25 @@ int search(char *x, struct node *first)
         return false;
 }
 
+// struct node* delete(char *x, struct node *first)
+// {
+// 	if(first == NULL)
+//     {
+// 		printf("Underflowed");
+// 		return 0;
+// 	}
+	
+//     struct node *save;
+// 	save= first;
+
+//     free(x);
+// }
+
+
 int main()
 {
     int option;
-    int number;
+    unsigned long int number;
     char name[20];
     struct node *first,*second,*third, *check;
 
@@ -109,18 +130,18 @@ int main()
         switch (option)
         {
         case 1:
-            printf("insertion\n");
-            printf("\nenter name:");
+            printf("\n\ninsertion\n\n");
+            printf("\n\nenter name:\n\n");
             scanf("%s", name);
-            printf("\nenter number:");
-            scanf("%d", &number);
+            printf("\nenter number:\n\n");
+            scanf("%ld", &number);
                 // first = insAtBeg(name, number, first);
             first = insOrd(name,number,first);
 
             break;
         case 2:
-            printf("search");
-            printf("\nwhom do you want to search:");
+            printf("\n\nsearch\n\n");
+            printf("\n\nwhom do you want to search:\n\n");
             scanf("%s", name);
             printf("%d", search(name, first));
             break;
@@ -129,13 +150,16 @@ int main()
             display(first);
             break;
         case 4:
-            printf("sort");
+            printf("\n\nsort\n\n");
             break;
         case 5:
-            printf("delete");
+            printf("\n\ndelete\n\n");
+            printf("\n\nwhom do you want to delete:\n\n");
+            scanf("%s", name);
+            // delete(name,first);
             break;
         default:
-            printf("invalid option");
+            printf("\n\ninvalid option\n\n");
             break;
         }
     }
