@@ -6,7 +6,7 @@
 int inscheck = 0;
 struct node
 {
-    int phoneNumber;
+    long phoneNumber;
     char name[20];
     struct node *next;
 };
@@ -15,6 +15,7 @@ struct node *insAtBeg(char x[20], int number, struct node *first)
 {
     struct node *new;
     new = (struct node *)malloc(sizeof(struct node));
+    // printf("\n\n%s\t%ld\n\n",x,number);
     if (new == NULL)
     {
         printf("Overflowed\n");
@@ -31,33 +32,33 @@ struct node *insAtBeg(char x[20], int number, struct node *first)
     }
 }
 
-bool search(char x[20])
+bool search(char x[20], struct node *first)
 {
     bool mybool;
-    struct node *new;
-    new = (struct node *)malloc(sizeof(struct node));
-    while (new != NULL)
+    while (first != NULL)
     {
+        printf("\n\n%s\t%ld\n\n",first->name,first->phoneNumber);
 
-        if (new->name == x)
-        {
-            mybool = true;
-            printf("here\n");
-            break;
-        }
-        else
-        {
-            mybool = false;
-            printf("why here\n");
-        }
-        new = new->next;
+        // if (first->name == x)
+        // {
+        //     mybool = true;
+        //     printf("here\n");
+        //     break;
+        // }
+        // else
+        // {
+        //     mybool = false;
+
+        //     printf("why here\n");
+        // }
+        first = first->next;
     }
 
     if (mybool)
-        return mybool;
+        return true;
 
     else
-        return mybool;
+        return false;
 }
 
 int main()
@@ -65,9 +66,17 @@ int main()
     int option;
     int number;
     char name[20];
-    struct node *first, *check;
+    struct node *first,*second,*third, *check;
 
     first = (struct node *)malloc(sizeof(struct node));
+    second = (struct node *)malloc(sizeof(struct node));
+    third = (struct node *)malloc(sizeof(struct node));
+    strcpy(first->name,"nirmal");
+    first->phoneNumber = 90;
+    strcpy(second->name, "abd");
+    second->phoneNumber = 90;
+    strcpy(third->name, "xyz");
+    third->phoneNumber = 90;
     while (1)
     {
         printf("\nEnter :\n1 to insert\n2 to search\n3 to read\n4 to sort\n5 to delete\n");
@@ -89,7 +98,7 @@ int main()
             printf("search");
             printf("\nwhom do you want to search:");
             scanf("%s", name);
-            printf("%d", search(name));
+            printf("%d", search(name, first));
             break;
         case 3:
             printf("read");
