@@ -21,8 +21,8 @@ struct node *insAtBeg(char *x, unsigned long int number, struct node *first)
     }
     else
     {
-        for (int i = 0; i < 20; i++)
-            new->name[i] = x[i];
+        for (int i = 0; i < 20; i++){
+            new->name[i] = x[i];}
         new->phoneNumber = number;
         new->next = first;
         return new;
@@ -43,8 +43,8 @@ struct node* insOrd(char *x, unsigned long int number, struct node *first)
 		return new;
 	}
 	
-    for (int i = 0; i < 20; i++)
-        new->name[i] = x[i];
+    for (int i = 0; i < 20; i++){
+        new->name[i] = x[i];}
     new->phoneNumber = number;
 	
 	if(strcmp(new->name,  first->name) < 0 )
