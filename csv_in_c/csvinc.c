@@ -1,90 +1,93 @@
-// C program for the above approach
-// #include <conio.h>
 #include <stdio.h>
 #include <string.h>
-char *hijk;
-char *lmnop;
-int printing(char *valueee)
+char *name_var;
+char *num_var;
+struct node
 {
-	hijk = valueee;
-}
-int printingnumber(char *valueee)
+	char phoneNumber[15];
+	char fname[20];
+	struct node *next;
+};
+
+void display(struct node *first)
 {
-	lmnop = valueee;
+    while(first != NULL)
+    {
+        printf("\n\n%s\t%s\n\n",first->fname,first->phoneNumber);
+        first = first -> next;
+    }
 }
-// Driver Code
+// insertion code end_of_ll
+struct node *insAtEnd(char *fn, char *phnum, struct node *first)
+{ // insert at ending of linked list
+	struct node *new;
+	new = (struct node *)malloc(sizeof(struct node));
+
+	// storing data in new node
+	strcpy(new->fname, fn);
+	strcpy(new->phoneNumber, phnum);
+	new->next = NULL;
+
+	// copy of first pointer
+	struct node *save;
+	save = first;
+
+	// if not empty traverse to end
+	while (save->next != NULL)
+	{
+		save = save->next;
+	}
+
+	// save new node at end of save.
+	save->next = new;
+	return first;
+}
+
+// insertion code end_of_ll
+
 int main()
 {
-	// Substitute the full file path
-	// for the string file_path
 	FILE *fp = fopen("100-contacts.csv", "a+");
-
+	struct node *first = (struct node*)malloc(sizeof(struct node));
 	if (!fp)
 		printf("Can't open file\n");
-
 	else
 	{
-		// Here we have taken size of
-		// character array 1024 you can modify it
 		char buffer[1024];
-
 		int row = 0;
 		int column = 0;
-		int i = 0;
-
 		while (fgets(buffer, 1024, fp))
 		{
 			column = 0;
-			// printf("\nrow = %d\n",row);
 			row++;
-			// ignoring the first column as it data has no point
-
 			if (row == 1)
 				continue;
-			// ignoring the first column
-
-			// Splitting the data
 			char *value = strtok(buffer, ",");
-			// printf("\nvalue = %s");
-
 			while (value)
 			{
-
-				// Column 1
 				if (column == 0)
 				{
-					// printf("%d Name. :",i);
-					// printf("%s", value);
-					printing(value);
-					printf("\nname:= %s", hijk);
-
-					// printf("\n1\n");
+					name_var = value;
 				}
-
-				// Column 2
 				if (column == 1)
 				{
-					// printf("\tcontact_1. :");
-					// printf("%s", value);
-					// printf("\n2\n");
-					printingnumber(value);
-					printf("\nnumber:= %ls", lmnop);
+					num_var = value;
 				}
-
-				// printf("%s", value);
-
 				value = strtok(NULL, ",");
 				column++;
 			}
-			i++;
-
-			printf("\n");
+			
+			insAtEnd(name_var,num_var,first);
+			// printf("name = %s",name_var);
+			// printf("\n");
+			// printf("number = %s",num_var);
+			// printf("\n");
 		}
-		char *nam = "nirmal makwana";
-		char *num = "7990051361";
-		// fputs(nam+num,fp);
-		fprintf(fp, "\n%s,%s", nam, num);
-		fclose(fp);
 	}
+	// char *num1 = "nirmal";
+	// char *num2 = "89988775625";
+	// fprintf(fp, "%s,%s", num1, num2);
+	display(first);
+	close(fp);
 	return 0;
 }
