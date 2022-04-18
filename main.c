@@ -1,73 +1,10 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdlib.h>
-
-struct node
-{
-    unsigned long int phoneNumber;
-    char name[20];
-    struct node *next;
-};
-
-struct node *insAtBeg(char *x, unsigned long int number, struct node *first)
-{
-    struct node *new;
-    new = (struct node *)malloc(sizeof(struct node));
-    if (new == NULL)
-    {
-        printf("Overflowed\n");
-        return first;
-    }
-    else
-    {
-        for (int i = 0; i < 20; i++){
-            new->name[i] = x[i];}
-        new->phoneNumber = number;
-        new->next = first;
-        return new;
-    }
-}
-struct node* insOrd(char *x, unsigned long int number, struct node *first)
-{    //inserts in ordered linked list in ordered manner
-	
-    struct node *new;
-	new = (struct node*)malloc(sizeof(struct node));
-	
-    struct node *save;
-	save = first;
-	
-	if(save == NULL)
-    {
-		printf("empty\n");
-		return new;
-	}
-	
-    for (int i = 0; i < 20; i++){
-        new->name[i] = x[i];}
-    new->phoneNumber = number;
-	
-	if(strcmp(new->name,  first->name) < 0 )
-    {
-		new->next=first;
-		return new;
-	}
-	
-	while(save->next != NULL && strcmp(new->name, save->next->name) > 0)
-    {
-		save=save->next;
-	}
-	
-	new->next =save->next;
-	save->next=new;
-	return first;
-}
+#include "insertion.c"
 
 void display(struct node *first)
 {
     while(first != NULL)
     {
-        printf("\n\n%s\t%ld\n\n",first->name,first->phoneNumber);
+        printf("\n\n%s\t%s\t%s\n\n",first->fname,first->lname,first->phoneNumber);
         first = first -> next;
     }
 }
@@ -77,7 +14,7 @@ int search(char *x, struct node *first)
     while (first != NULL)
     {
         // printf("\n\n%s\t%ld\n\n",first->name,first->phoneNumber);
-        if (strcmp(first->name, x) == 0)
+        if (strcmp(first->fname, x) == 0)
         {
             mybool = true;
             // printf("here\n");
@@ -116,8 +53,9 @@ int search(char *x, struct node *first)
 int main()
 {
     int option;
-    unsigned long int number;
-    char name[20];
+    char number[15];
+    char fname[20];
+    char lname[20];
     struct node *first,*second,*third, *check;
 
     first = (struct node *)malloc(sizeof(struct node));
@@ -131,19 +69,21 @@ int main()
         {
         case 1:
             printf("\n\ninsertion\n\n");
-            printf("\n\nenter name:\n\n");
-            scanf("%s", name);
+            printf("\n\nenter first name:\n\n");
+            scanf("%s", fname);
+            printf("\n\nenter last  name:\n\n");
+            scanf("%s", lname);
             printf("\nenter number:\n\n");
-            scanf("%ld", &number);
+            scanf("%s", number);
                 // first = insAtBeg(name, number, first);
-            first = insOrd(name,number,first);
+            first = insAtEnd(fname, lname, number,first);
 
             break;
         case 2:
             printf("\n\nsearch\n\n");
             printf("\n\nwhom do you want to search:\n\n");
-            scanf("%s", name);
-            printf("%d", search(name, first));
+            scanf("%s", fname);
+            printf("%d", search(fname, first));
             break;
         case 3:
             printf("\n\nreading\n\n");
@@ -155,7 +95,7 @@ int main()
         case 5:
             printf("\n\ndelete\n\n");
             printf("\n\nwhom do you want to delete:\n\n");
-            scanf("%s", name);
+            scanf("%s", fname);
             // delete(name,first);
             break;
         default:
@@ -173,4 +113,58 @@ int main()
     // strcpy(second->name, "abd");
     // second->phoneNumber = 90;
     // strcpy(third->name, "xyz");
+
+
+// struct node *insAtBeg(char *x, unsigned long int number, struct node *first)
+// {
+//     struct node *new;
+//     new = (struct node *)malloc(sizeof(struct node));
+//     if (new == NULL)
+//     {
+//         printf("Overflowed\n");
+//         return first;
+//     }
+//     else
+//     {
+//         for (int i = 0; i < 20; i++){
+//             new->fname[i] = x[i];}
+//         new->phoneNumber = number;
+//         new->next = first;
+//         return new;
+//     }
+// }
+// struct node* insOrd(char *x, unsigned long int number, struct node *first)
+// {    //inserts in ordered linked list in ordered manner
+	
+//     struct node *new;
+// 	new = (struct node*)malloc(sizeof(struct node));
+	
+//     struct node *save;
+// 	save = first;
+	
+// 	if(save == NULL)
+//     {
+// 		printf("empty\n");
+// 		return new;
+// 	}
+	
+//     for (int i = 0; i < 20; i++){
+//         new->name[i] = x[i];}
+//     new->phoneNumber = number;
+	
+// 	if(strcmp(new->name,  first->name) < 0 )
+//     {
+// 		new->next=first;
+// 		return new;
+// 	}
+	
+// 	while(save->next != NULL && strcmp(new->name, save->next->name) > 0)
+//     {
+// 		save=save->next;
+// 	}
+	
+// 	new->next =save->next;
+// 	save->next=new;
+// 	return first;
+// }
     // third->phoneNumber = 90;
