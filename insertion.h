@@ -3,4 +3,4 @@
 #include<string.h>
 #include"nodeStruct.h"
 
-struct node* insAtEnd(char *, char *, char *, struct node *);
+struct node* insAtEnd(char *, char *, struct node *);

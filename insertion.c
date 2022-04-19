@@ -1,12 +1,11 @@
 #include"insertion.h"
 
-struct node* insAtEnd(char *fn, char *ln, char *phnum, struct node *first){  //insert at ending of linked list
+struct node* insAtEnd(char *fn, char *phnum, struct node *first){  //insert at ending of linked list
 	struct node *new;
 	new=(struct node*)malloc(sizeof(struct node));
 
     //storing data in new node
 	strcpy(new->fname,fn);
-	strcpy(new->lname,ln);
 	strcpy(new->phoneNumber,phnum);
 	new->next = NULL;	
     

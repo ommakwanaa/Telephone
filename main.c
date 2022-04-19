@@ -4,37 +4,65 @@ void display(struct node *first)
 {
     while(first != NULL)
     {
-        printf("\n\n%s\t%s\t%s\n\n",first->fname,first->lname,first->phoneNumber);
+        printf("\n%s\t%s\t%s\n",first->fname,first->lname,first->phoneNumber);
         first = first -> next;
     }
 }
+//under development
+void sort(struct node* first)
+{
+    struct node *nextnode;
+	char temp_name[20];
+    char temp_num[20];
+
+	while(first != NULL)
+    {
+	    nextnode = first->next;
+        while(nextnode != NULL)
+        {
+            if(strcmp(first->fname,nextnode->fname) > 0)
+            {
+                strcpy(temp_name, first->fname);
+                strcpy(temp_num, first->phoneNumber);
+
+                strcpy(first->fname, nextnode->fname);
+                strcpy(first->phoneNumber, nextnode->phoneNumber);
+
+                strcpy(nextnode->fname, temp_name);
+                strcpy(nextnode->phoneNumber, temp_num);
+
+            }
+            nextnode = nextnode->next;
+        }
+        first = first->next;
+    }
+}
+
 int search(char *x, struct node *first)
 {
     bool mybool;
     while (first != NULL)
     {
-        // printf("\n\n%s\t%ld\n\n",first->name,first->phoneNumber);
+        // printf("\n%s\t%ld\n",first->name,first->phoneNumber);
         if (strcmp(first->fname, x) == 0)
         {
             mybool = true;
-            // printf("here\n");
+            // printf("here");
             break;
         }
         else
         {
             mybool = false;
-            // printf("why here\n");
+            // printf("why here");
         }
         first = first->next;
     }
-
     if (mybool)
         return true;
-
     else
         return false;
 }
-
+//under development
 // struct node* delete(char *x, struct node *first)
 // {
 // 	if(first == NULL)
@@ -49,13 +77,11 @@ int search(char *x, struct node *first)
 //     free(x);
 // }
 
-
 int main()
 {
     int option;
     char number[15];
     char fname[20];
-    char lname[20];
     struct node *first,*second,*third, *check;
 
     first = (struct node *)malloc(sizeof(struct node));
@@ -68,38 +94,37 @@ int main()
         switch (option)
         {
         case 1:
-            printf("\n\ninsertion\n\n");
-            printf("\n\nenter first name:\n\n");
+            printf("\ninsertion\n");
+            printf("\nenter first name:\n");
             scanf("%s", fname);
-            printf("\n\nenter last  name:\n\n");
-            scanf("%s", lname);
-            printf("\nenter number:\n\n");
+            printf("\nenter number:\n");
             scanf("%s", number);
-                // first = insAtBeg(name, number, first);
-            first = insAtEnd(fname, lname, number,first);
-
+            first = insAtEnd(fname, number,first);
             break;
         case 2:
-            printf("\n\nsearch\n\n");
-            printf("\n\nwhom do you want to search:\n\n");
+            printf("\nsearch\n");
+            printf("\nwhom do you want to search:\n");
             scanf("%s", fname);
             printf("%d", search(fname, first));
             break;
         case 3:
-            printf("\n\nreading\n\n");
+            printf("\nreading\n");
             display(first);
             break;
         case 4:
-            printf("\n\nsort\n\n");
+            printf("\nsort\n");
+            printf("\n---------------------working on it------------------------\n");
+            sort(first);
             break;
         case 5:
-            printf("\n\ndelete\n\n");
-            printf("\n\nwhom do you want to delete:\n\n");
+            printf("\ndelete\n");
+            printf("\n---------------------working on it------------------------\n");
+            printf("\nwhom do you want to delete:\n");
             scanf("%s", fname);
             // delete(name,first);
             break;
         default:
-            printf("\n\ninvalid option\n\n");
+            printf("\ninvalid option\n");
             break;
         }
     }
@@ -121,7 +146,7 @@ int main()
 //     new = (struct node *)malloc(sizeof(struct node));
 //     if (new == NULL)
 //     {
-//         printf("Overflowed\n");
+//         printf("Overflowed");
 //         return first;
 //     }
 //     else
@@ -144,7 +169,7 @@ int main()
 	
 // 	if(save == NULL)
 //     {
-// 		printf("empty\n");
+// 		printf("empty");
 // 		return new;
 // 	}
 	
