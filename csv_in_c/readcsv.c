@@ -43,35 +43,6 @@ struct node *insAtEnd(char *fn, char *phnum, struct node *first)
 	return first;
 }
 
-void sort(struct node* first)
-{
-    struct node *nextnode;
-	char temp_name[20];
-    char temp_num[20];
-
-	while(first != NULL)
-    {
-	    nextnode = first->next;
-        while(nextnode != NULL)
-        {
-            if(strcmp(first->fname,nextnode->fname) > 0)
-            {
-                strcpy(temp_name, first->fname);
-                strcpy(temp_num, first->phoneNumber);
-
-                strcpy(first->fname, nextnode->fname);
-                strcpy(first->phoneNumber, nextnode->phoneNumber);
-
-                strcpy(nextnode->fname, temp_name);
-                strcpy(nextnode->phoneNumber, temp_num);
-
-            }
-            nextnode = nextnode->next;
-        }
-        first = first->next;
-    }
-}
-
 // insertion code end_of_ll
 
 int main()
@@ -107,6 +78,9 @@ int main()
 			}
 			
 			insAtEnd(name_var,num_var,first);
+
+			
+
 			// printf("name = %s",name_var);
 			// printf("\n");
 			// printf("number = %s",num_var);
@@ -116,9 +90,6 @@ int main()
 	// char *num1 = "nirmal";
 	// char *num2 = "89988775625";
 	// fprintf(fp, "%s,%s", num1, num2);
-	display(first);
-	printf("\n\n\nshorting-----\n\n\n");
-	sort(first);
 	display(first);
 	close(fp);
 	return 0;
