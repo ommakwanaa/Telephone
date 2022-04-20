@@ -2,6 +2,8 @@
 #include <string.h>
 char *name_var;
 char *num_var;
+char commma = ',';
+
 struct node
 {
 	char phoneNumber[15];
@@ -11,11 +13,15 @@ struct node
 
 void display(struct node *first)
 {
-    while(first != NULL)
-    {
-        printf("\n\n%s\t%s\n\n",first->fname,first->phoneNumber);
-        first = first -> next;
-    }
+	FILE *fp1 = fopen("contacts.csv", "w");
+	while (first != NULL)
+	{
+		
+		// fprintf(fp1, "%s, %s\n","om", "makwana");
+		printf("\n%s\t%s\n", first->fname, first->phoneNumber);
+		first = first->next;
+	}
+	// close(fp1);
 }
 // insertion code end_of_ll
 struct node *insAtEnd(char *fn, char *phnum, struct node *first)
@@ -43,41 +49,15 @@ struct node *insAtEnd(char *fn, char *phnum, struct node *first)
 	return first;
 }
 
-void sort(struct node* first)
-{
-    struct node *nextnode;
-	char temp_name[20];
-    char temp_num[20];
-
-	while(first != NULL)
-    {
-	    nextnode = first->next;
-        while(nextnode != NULL)
-        {
-            if(strcmp(first->fname,nextnode->fname) > 0)
-            {
-                strcpy(temp_name, first->fname);
-                strcpy(temp_num, first->phoneNumber);
-
-                strcpy(first->fname, nextnode->fname);
-                strcpy(first->phoneNumber, nextnode->phoneNumber);
-
-                strcpy(nextnode->fname, temp_name);
-                strcpy(nextnode->phoneNumber, temp_num);
-
-            }
-            nextnode = nextnode->next;
-        }
-        first = first->next;
-    }
-}
-
 // insertion code end_of_ll
 
 int main()
 {
+	char num1[10];
+	char num2[10];
+	int csv_option;
+	struct node *first = (struct node *)malloc(sizeof(struct node));
 	FILE *fp = fopen("100-contacts.csv", "a+");
-	struct node *first = (struct node*)malloc(sizeof(struct node));
 	if (!fp)
 		printf("Can't open file\n");
 	else
@@ -105,21 +85,39 @@ int main()
 				value = strtok(NULL, ",");
 				column++;
 			}
-			
-			insAtEnd(name_var,num_var,first);
-			// printf("name = %s",name_var);
-			// printf("\n");
-			// printf("number = %s",num_var);
-			// printf("\n");
+
+			first = insAtEnd(name_var, num_var, first);
 		}
 	}
-	// char *num1 = "nirmal";
-	// char *num2 = "89988775625";
-	// fprintf(fp, "%s,%s", num1, num2);
-	display(first);
-	printf("\n\n\nshorting-----\n\n\n");
-	sort(first);
-	display(first);
-	close(fp);
+	while (1)
+	{
+		printf(" 1 for display csv 2 for inserting data");
+		scanf("%d", &csv_option);
+		switch (csv_option)
+		{
+		case 1:
+			display(first);
+
+			break;
+		case 2:
+
+			printf("enter the name:= \n");
+			scanf("%s", num1);
+			printf("enter the number:= \n");
+			scanf("%s", num2);
+			// fputs(fp, "%s,%s", num1, num2);
+			fputs(num1,fp);
+			// fputs(commma,fp);
+			fputs(num2,fp);
+			first = insAtEnd(num1, num2, first);
+
+			break;
+
+		default:
+			break;
+		}
+		close(fp);
+	}
+
 	return 0;
 }
