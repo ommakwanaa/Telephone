@@ -44,11 +44,12 @@ int search(char *x, struct node *first)
     while (first != NULL)
     {
         // printf("\n%s\t%ld\n",first->name,first->phoneNumber);
-        if (strcmp(first->fname, x) == 0)
+        if (strncmp(first->fname, x,strlen(x)) == 0)
         {
             mybool = true;
+            printf("%s:%s\n",first->fname,first->phoneNumber);
             // printf("here");
-            break;
+            // break;
         }
         else
         {
