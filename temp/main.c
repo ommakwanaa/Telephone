@@ -4,11 +4,10 @@ void display(struct node *first)
 {
     while(first != NULL)
     {
-        printf("\n%s\t%s\t%s\n",first->fname,first->lname,first->phoneNumber);
+        printf("\n%s\t%s\n", first->fname, first->phoneNumber);
         first = first -> next;
     }
 }
-//under development
 void sort(struct node* first)
 {
     struct node *nextnode;
@@ -82,12 +81,11 @@ int main()
 {
     int option;
     char number[15];
-    char fname[20];
-    struct node *first,*second,*third, *check;
+    char fname[40];
+    char lname[20];
+    struct node *first;
 
     first = (struct node *)malloc(sizeof(struct node));
-    second = (struct node *)malloc(sizeof(struct node));
-    third = (struct node *)malloc(sizeof(struct node));
     while (1)
     {
         printf("\nEnter :\n1 to insert\n2 to search\n3 to read\n4 to sort\n5 to delete\n");
@@ -98,9 +96,13 @@ int main()
             printf("\ninsertion\n");
             printf("\nenter first name:\n");
             scanf("%s", fname);
+            printf("\nenter last name:\n");
+            scanf("%s", lname);
             printf("\nenter number:\n");
             scanf("%s", number);
-            first = insAtEnd(fname, number,first);
+            strcat(fname, " ");
+            strcat(fname,lname);
+            first = insAtEnd(fname, number, first);
             break;
         case 2:
             printf("\nsearch\n");
