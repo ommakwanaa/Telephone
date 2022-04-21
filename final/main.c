@@ -1,4 +1,15 @@
-#include "insertion.c"
+#include<stdio.h>
+#include<stdlib.h>
+#include <stdbool.h>
+#include<string.h>
+char*name_var;
+char *num_var;
+struct node
+{
+    char phoneNumber[15];
+    char fname[40];
+    struct node *next;
+};
 
 void display(struct node *first)
 {
@@ -7,6 +18,31 @@ void display(struct node *first)
         printf("\n%s\t%s\n", first->fname, first->phoneNumber);
         first = first -> next;
     }
+}
+
+struct node *insAtEnd(char *fn, char *phnum, struct node *first)
+{ // insert at ending of linked list
+	struct node *new;
+	new = (struct node *)malloc(sizeof(struct node));
+
+	// storing data in new node
+	strcpy(new->fname, fn);
+	strcpy(new->phoneNumber, phnum);
+	new->next = NULL;
+
+	// copy of first pointer
+	struct node *save;
+	save = first;
+
+	// if not empty traverse to end
+	while (save->next != NULL)
+	{
+		save = save->next;
+	}
+
+	// save new node at end of save.
+	save->next = new;
+	return first;
 }
 void sort(struct node* first)
 {
@@ -64,12 +100,44 @@ int main()
     int option;
     char number[15];
     char fname[40];
-    char lname[20];
-    struct node *first;
+    char lname[40];
+	struct node *first = (struct node *)malloc(sizeof(struct node));
+	FILE *fp = fopen("100-contacts.csv", "a+");
+	if (!fp){
+		printf("Can't open file\n");}
+	else
+	{
+		char buffer[1024];
+		int row = 0;
+		int column = 0;
+		while (fgets(buffer, 1024, fp))
+		{
+			column = 0;
+			row++;
+			if (row == 1)
+				continue;
+			char *value = strtok(buffer, ",");
+			while (value)
+			{
+				if (column == 0)
+				{
+					name_var = value;
+				}
+				if (column == 1)
+				{
+					num_var = value;
+				}
+				value = strtok(NULL, ",");
+				column++;
+			}
 
-    first = (struct node *)malloc(sizeof(struct node));
+			first = insAtEnd(name_var, num_var, first);
+    		}
+	}
+    // first = (struct node *)malloc(sizeof(struct node));
     while (1)
     {
+        fflush(fp);
         printf("\nEnter :\n1 to insert\n2 to search\n3 to read\n4 to sort\n5 to delete\n");
         scanf("%d", &option);
         switch (option)
@@ -84,6 +152,10 @@ int main()
             scanf("%s", number);
             strcat(fname, " ");
             strcat(fname,lname);
+            printf("adding");
+			fseek(fp,0,SEEK_END);
+			fprintf(fp, "\n%s,%s", fname, number);
+            printf("added");
             first = insAtEnd(fname, number, first);
             break;
         case 2:
@@ -111,5 +183,6 @@ int main()
             printf("\ninvalid option\n");
             break;
         }
+        close(fp);
     }
 }
