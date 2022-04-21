@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-char *name_var;
+char
+ *name_var;
 char *num_var;
-char commma = ',';
-
 struct node
 {
 	char phoneNumber[15];
