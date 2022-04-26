@@ -1,4 +1,15 @@
-#include "insertion.c"
+#include<stdio.h>
+#include<stdlib.h>
+#include <stdbool.h>
+#include<string.h>
+char*name_var;
+char *num_var;
+struct node
+{
+    char phoneNumber[15];
+    char fname[40];
+    struct node *next;
+};
 
 void display(struct node *first)
 {
@@ -8,17 +19,47 @@ void display(struct node *first)
         first = first -> next;
     }
 }
+
+struct node *insAtEnd(char *fn, char *phnum, struct node *first)
+{ // insert at ending of linked list
+	struct node *new;
+	new = (struct node *)malloc(sizeof(struct node));
+
+	// storing data in new node
+	strcpy(new->fname, fn);
+	strcpy(new->phoneNumber, phnum);
+	new->next = NULL;
+
+	// copy of first pointer
+	struct node *save;
+	save = first;
+
+	// if not empty traverse to end
+	while (save->next != NULL)
+	{
+		save = save->next;
+	}
+
+	// save new node at end of save.
+	save->next = new;
+	return first;
+}
 void sort(struct node* first)
 {
     struct node *nextnode;
 	char temp_name[20];
     char temp_num[20];
+	FILE *fp1 = fopen("shorted.csv", "a+");
+	if (!fp1){
+		printf("Can't open file\n");}
+	else{
 
 	while(first != NULL)
     {
 	    nextnode = first->next;
         while(nextnode != NULL)
         {
+            fflush(fp1);
             if(strcmp(first->fname,nextnode->fname) > 0)
             {
                 strcpy(temp_name, first->fname);
@@ -34,6 +75,11 @@ void sort(struct node* first)
             nextnode = nextnode->next;
         }
         first = first->next;
+        // shorted csv saving code 
+        fseek(fp1,0,SEEK_END);
+        fprintf(fp1, "%s,%s", temp_name, temp_num);
+        // shorted csv saving code 
+    }
     }
 }
 
@@ -42,18 +88,14 @@ int search(char *x, struct node *first)
     bool mybool;
     while (first != NULL)
     {
-        // printf("\n%s\t%ld\n",first->name,first->phoneNumber);
         if (strncmp(first->fname, x,strlen(x)) == 0)
         {
             mybool = true;
             printf("%s:%s\n",first->fname,first->phoneNumber);
-            // printf("here");
-            // break;
         }
         else
         {
             mybool = false;
-            // printf("why here");
         }
         first = first->next;
     }
@@ -62,32 +104,50 @@ int search(char *x, struct node *first)
     else
         return false;
 }
-//under development
-// struct node* delete(char *x, struct node *first)
-// {
-// 	if(first == NULL)
-//     {
-// 		printf("Underflowed");
-// 		return 0;
-// 	}
-	
-//     struct node *save;
-// 	save= first;
-
-//     free(x);
-// }
 
 int main()
 {
     int option;
     char number[15];
     char fname[40];
-    char lname[20];
-    struct node *first;
+    char lname[40];
+	struct node *first = (struct node *)malloc(sizeof(struct node));
+	FILE *fp = fopen("10k.csv", "a+");
+	if (!fp){
+		printf("Can't open file\n");}
+	else
+	{
+		char buffer[1024];
+		int row = 0;
+		int column = 0;
+		while (fgets(buffer, 1024, fp))
+		{
+			column = 0;
+			row++;
+			if (row == 1)
+				continue;
+			char *value = strtok(buffer, ",");
+			while (value)
+			{
+				if (column == 0)
+				{
+					name_var = value;
+				}
+				if (column == 1)
+				{
+					num_var = value;
+				}
+				value = strtok(NULL, ",");
+				column++;
+			}
 
-    first = (struct node *)malloc(sizeof(struct node));
+			first = insAtEnd(name_var, num_var, first);
+    		}
+	}
+    // first = (struct node *)malloc(sizeof(struct node));
     while (1)
     {
+        fflush(fp);
         printf("\nEnter :\n1 to insert\n2 to search\n3 to read\n4 to sort\n5 to delete\n");
         scanf("%d", &option);
         switch (option)
@@ -102,6 +162,10 @@ int main()
             scanf("%s", number);
             strcat(fname, " ");
             strcat(fname,lname);
+            printf("adding");
+			fseek(fp,0,SEEK_END);
+			fprintf(fp, "\n%s,%s", fname, number);
+            printf("added");
             first = insAtEnd(fname, number, first);
             break;
         case 2:
@@ -124,75 +188,11 @@ int main()
             printf("\n---------------------working on it------------------------\n");
             printf("\nwhom do you want to delete:\n");
             scanf("%s", fname);
-            // delete(name,first);
             break;
         default:
             printf("\ninvalid option\n");
             break;
         }
+        close(fp);
     }
 }
-    // first=insAtBeg(strcpy(first->name,"nirmal"),9927,first);
-    // second=insAtBeg(strcpy(first->name,"axyhzbc"),99127,first);
-    // third=insAtBeg(strcpy(first->name,"nirmal"),991127,first);
-    // printf("%d",search("nirmal",first));
-    // return 0;
-    // // first->phoneNumber = 90;
-    // strcpy(second->name, "abd");
-    // second->phoneNumber = 90;
-    // strcpy(third->name, "xyz");
-
-
-// struct node *insAtBeg(char *x, unsigned long int number, struct node *first)
-// {
-//     struct node *new;
-//     new = (struct node *)malloc(sizeof(struct node));
-//     if (new == NULL)
-//     {
-//         printf("Overflowed");
-//         return first;
-//     }
-//     else
-//     {
-//         for (int i = 0; i < 20; i++){
-//             new->fname[i] = x[i];}
-//         new->phoneNumber = number;
-//         new->next = first;
-//         return new;
-//     }
-// }
-// struct node* insOrd(char *x, unsigned long int number, struct node *first)
-// {    //inserts in ordered linked list in ordered manner
-	
-//     struct node *new;
-// 	new = (struct node*)malloc(sizeof(struct node));
-	
-//     struct node *save;
-// 	save = first;
-	
-// 	if(save == NULL)
-//     {
-// 		printf("empty");
-// 		return new;
-// 	}
-	
-//     for (int i = 0; i < 20; i++){
-//         new->name[i] = x[i];}
-//     new->phoneNumber = number;
-	
-// 	if(strcmp(new->name,  first->name) < 0 )
-//     {
-// 		new->next=first;
-// 		return new;
-// 	}
-	
-// 	while(save->next != NULL && strcmp(new->name, save->next->name) > 0)
-//     {
-// 		save=save->next;
-// 	}
-	
-// 	new->next =save->next;
-// 	save->next=new;
-// 	return first;
-// }
-    // third->phoneNumber = 90;
