@@ -106,21 +106,37 @@ int search(char *x, struct node *first)
 }
 struct Node * deleteAtIndex(char *x, struct node *first){
     printf("the char is %s \n",x);
-    
-    while (first != NULL)
-    {
-        if (strncmp(first->fname, x,strlen(x)) == 0)
-        {
 
-            printf("this should be deleted: %s:%s\n",first->fname,first->phoneNumber);
-        }
-        else
-        {
-            // printf("\nnothing to delete");
-        }
+      //temp is used to freeing the memory
+      struct node *temp;
+     
+
+      //key found on the head node.
+      //move to head node to the next and free the head.
+      if(first->fname == x)
+      {
+          printf("this should be deleted: %s:%s\n",first->fname,first->phoneNumber);
+          temp = first;    //backup the head to free its memory
+          first = first->next;
+          free(temp);
+      }
+    
+
+
+    // while (first != NULL)
+    // {
+    //     if (strncmp(first->fname, x,strlen(x)) == 0)
+    //     {
+
+    //         printf("this should be deleted: %s:%s\n",first->fname,first->phoneNumber);
+    //     }
+    //     else
+    //     {
+    //         // printf("\nnothing to delete");
+    //     }
         
-        first = first->next;
-    }
+    //     first = first->next;
+    // }
 
     // return first;
 }
