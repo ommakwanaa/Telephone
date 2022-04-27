@@ -104,7 +104,26 @@ int search(char *x, struct node *first)
     else
         return false;
 }
+struct Node * deleteAtIndex(char *x, struct node *first){
+    printf("the char is %s \n",x);
+    
+    while (first != NULL)
+    {
+        if (strncmp(first->fname, x,strlen(x)) == 0)
+        {
 
+            printf("this should be deleted: %s:%s\n",first->fname,first->phoneNumber);
+        }
+        else
+        {
+            // printf("\nnothing to delete");
+        }
+        
+        first = first->next;
+    }
+
+    // return first;
+}
 int main()
 {
     int option;
@@ -187,7 +206,13 @@ int main()
             printf("\ndelete\n");
             printf("\n---------------------working on it------------------------\n");
             printf("\nwhom do you want to delete:\n");
+            printf("\nenter first name:\n");
             scanf("%s", fname);
+            // printf("\nenter last name:\n");
+            scanf("%s", lname);
+            strcat(fname, " ");
+            strcat(fname,lname);
+            deleteAtIndex(fname,first);
             break;
         default:
             printf("\ninvalid option\n");
