@@ -118,7 +118,6 @@ struct Node *deleteAtIndex(char *x, struct node *first)
     // move the first node to the next and free the first.
     if (strcmp(first->fname, x) == 0)
     {
-        printf("this will be deleted: %s:%s\n", first->fname, first->phoneNumber);
         temp = first; // backup the first to free its memory
         first = first->next;
         free(temp);
@@ -147,7 +146,18 @@ struct Node *deleteAtIndex(char *x, struct node *first)
         }
     }
 }
+int exit_code(struct node *first){
+    sort(first);
+    FILE *exit_file = fopen("exit_file.csv", "a+");
+    while (first != NULL)
+    {
+        printf("\n%s\t%s\n", first->fname, first->phoneNumber);
+        fprintf(exit_file, "\n%s,%s", first->fname, first->phoneNumber);
+        first = first->next;
+    }   
+    fclose(exit_file);
 
+}
 int main()
 {
     int option;
@@ -155,7 +165,7 @@ int main()
     char fname[40];
     char lname[40];
     struct node *first = (struct node *)malloc(sizeof(struct node));
-    FILE *fp = fopen("100-contact.csv", "a+");
+    FILE *fp = fopen("10k.csv", "a+");
     if (!fp)
     {
         printf("Can't open file\n");
@@ -243,7 +253,10 @@ int main()
             printf("=======");
             deleteAtIndex(fname, first);
             break;
-        default:
+        case 6:
+            printf("\nExit\n");
+            exit_code(first);        
+            default:
             printf("\ninvalid option\n");
             break;
         }
