@@ -1,8 +1,8 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
-#include<string.h>
-char*name_var;
+#include <string.h>
+char *name_var;
 char *num_var;
 struct node
 {
@@ -13,73 +13,75 @@ struct node
 
 void display(struct node *first)
 {
-    while(first != NULL)
+    while (first != NULL)
     {
         printf("\n%s\t%s\n", first->fname, first->phoneNumber);
-        first = first -> next;
+        first = first->next;
     }
 }
 
 struct node *insAtEnd(char *fn, char *phnum, struct node *first)
 { // insert at ending of linked list
-	struct node *new;
-	new = (struct node *)malloc(sizeof(struct node));
+    struct node *new;
+    new = (struct node *)malloc(sizeof(struct node));
 
-	// storing data in new node
-	strcpy(new->fname, fn);
-	strcpy(new->phoneNumber, phnum);
-	new->next = NULL;
+    // storing data in new node
+    strcpy(new->fname, fn);
+    strcpy(new->phoneNumber, phnum);
+    new->next = NULL;
 
-	// copy of first pointer
-	struct node *save;
-	save = first;
+    // copy of first pointer
+    struct node *save;
+    save = first;
 
-	// if not empty traverse to end
-	while (save->next != NULL)
-	{
-		save = save->next;
-	}
+    // if not empty traverse to end
+    while (save->next != NULL)
+    {
+        save = save->next;
+    }
 
-	// save new node at end of save.
-	save->next = new;
-	return first;
+    // save new node at end of save.
+    save->next = new;
+    return first;
 }
-void sort(struct node* first)
+void sort(struct node *first)
 {
     struct node *nextnode;
-	char temp_name[20];
+    char temp_name[20];
     char temp_num[20];
-	FILE *fp1 = fopen("10_shorted.csv", "a+");
-	if (!fp1){
-		printf("Can't open file\n");}
-	else{
-
-	while(first != NULL)
+    FILE *fp1 = fopen("10_sorted.csv", "a+");
+    if (!fp1)
     {
-	    nextnode = first->next;
-        while(nextnode != NULL)
-        {
-            fflush(fp1);
-            if(strcmp(first->fname,nextnode->fname) > 0)
-            {
-                strcpy(temp_name, first->fname);
-                strcpy(temp_num, first->phoneNumber);
-
-                strcpy(first->fname, nextnode->fname);
-                strcpy(first->phoneNumber, nextnode->phoneNumber);
-
-                strcpy(nextnode->fname, temp_name);
-                strcpy(nextnode->phoneNumber, temp_num);
-
-            }
-            nextnode = nextnode->next;
-        }
-        first = first->next;
-        // shorted csv saving code 
-        fseek(fp1,0,SEEK_END);
-        fprintf(fp1, "%s,%s", temp_name, temp_num);
-        // shorted csv saving code 
+        printf("Can't open file\n");
     }
+    else
+    {
+
+        while (first != NULL)
+        {
+            nextnode = first->next;
+            while (nextnode != NULL)
+            {
+                fflush(fp1);
+                if (strcmp(first->fname, nextnode->fname) > 0)
+                {
+                    strcpy(temp_name, first->fname);
+                    strcpy(temp_num, first->phoneNumber);
+
+                    strcpy(first->fname, nextnode->fname);
+                    strcpy(first->phoneNumber, nextnode->phoneNumber);
+
+                    strcpy(nextnode->fname, temp_name);
+                    strcpy(nextnode->phoneNumber, temp_num);
+                }
+                nextnode = nextnode->next;
+            }
+            first = first->next;
+            // shorted csv saving code
+            fseek(fp1, 0, SEEK_END);
+            fprintf(fp1, "%s,%s", temp_name, temp_num);
+            // shorted csv saving code
+        }
     }
 }
 
@@ -88,10 +90,10 @@ int search(char *x, struct node *first)
     bool mybool;
     while (first != NULL)
     {
-        if (strncmp(first->fname, x,strlen(x)) == 0)
+        if (strncmp(first->fname, x, strlen(x)) == 0)
         {
             mybool = true;
-            printf("%s:%s\n",first->fname,first->phoneNumber);
+            printf("%s:%s\n", first->fname, first->phoneNumber);
         }
         else
         {
@@ -104,100 +106,89 @@ int search(char *x, struct node *first)
     else
         return false;
 }
-struct Node * deleteAtIndex(char *x, struct node *first){
-    printf("the char is %s \n",x);
+struct Node *deleteAtIndex(char *x, struct node *first)
+{
+    printf("the char is %s \n", x);
 
-      //temp is used to freeing the memory
-      struct node *temp;
-     
+    // temp is used to freeing the memory
+    struct node *temp;
+    struct node *newnext;
 
-      //key found on the head node.
-      //move to head node to the next and free the head.
-      if(first->fname == x)
-      {
-          printf("this should be deleted: %s:%s\n",first->fname,first->phoneNumber);
-          temp = first;    //backup the head to free its memory
-          first = first->next;
-          free(temp);
-      }
+    // name found on the first node.
+    // move the first node to the next and free the first.
+    if (strcmp(first->fname, x) == 0)
+    {
+        printf("this will be deleted: %s:%s\n", first->fname, first->phoneNumber);
+        temp = first; // backup the first to free its memory
+        first = first->next;
+        free(temp);
+    }
 
-      else
-      {
-          struct node *current  = first;
-          while(current->next != NULL)
-          {
-              //if yes, we need to delete the current->next node
-              if(current->next->fname == x)
-              {
-                  temp = current->next;
-                  //node will be disconnected from the linked list.
-                  current->next = current->next->next;
-                  free(temp);
-                  break;
-              }
-              //Otherwise, move the current node and proceed
-              else
-                  current = current->next;
-          }
-      }  
-
-
-    // while (first != NULL)
-    // {
-    //     if (strncmp(first->fname, x,strlen(x)) == 0)
-    //     {
-
-    //         printf("this should be deleted: %s:%s\n",first->fname,first->phoneNumber);
-    //     }
-    //     else
-    //     {
-    //         // printf("\nnothing to delete");
-    //     }
-        
-    //     first = first->next;
-    // }
-
-    // return first;
+    else
+    {
+        struct node *current = first;
+        //   newnext = current->next;
+        while (current->next != NULL)
+        {
+            // if yes, we need to delete the current->next node
+            if (strcmp(current->fname, x) == 0)
+            {
+                temp = current;
+                // node will be disconnected from the linked list.
+                current->next = current->next->next;
+                free(temp);
+                break;
+            }
+            // Otherwise, move the current node and proceed
+            else
+            {
+                current = current->next;
+            }
+        }
+    }
 }
+
 int main()
 {
     int option;
     char number[15];
     char fname[40];
     char lname[40];
-	struct node *first = (struct node *)malloc(sizeof(struct node));
-	FILE *fp = fopen("100-contacts.csv", "a+");
-	if (!fp){
-		printf("Can't open file\n");}
-	else
-	{
-		char buffer[1024];
-		int row = 0;
-		int column = 0;
-		while (fgets(buffer, 1024, fp))
-		{
-			column = 0;
-			row++;
-			if (row == 1)
-				continue;
-			char *value = strtok(buffer, ",");
-			while (value)
-			{
-				if (column == 0)
-				{
-					name_var = value;
-				}
-				if (column == 1)
-				{
-					num_var = value;
-				}
-				value = strtok(NULL, ",");
-				column++;
-			}
+    struct node *first = (struct node *)malloc(sizeof(struct node));
+    FILE *fp = fopen("100-contact.csv", "a+");
+    if (!fp)
+    {
+        printf("Can't open file\n");
+    }
+    else
+    {
+        char buffer[1024];
+        int row = 0;
+        int column = 0;
+        while (fgets(buffer, 1024, fp))
+        {
+            column = 0;
+            row++;
+            if (row == 1)
+                continue;
+            char *value = strtok(buffer, ",");
+            while (value)
+            {
+                if (column == 0)
+                {
+                    name_var = value;
+                }
+                if (column == 1)
+                {
+                    num_var = value;
+                }
+                value = strtok(NULL, ",");
+                column++;
+            }
 
-			first = insAtEnd(name_var, num_var, first);
-    		}
-	}
+            first = insAtEnd(name_var, num_var, first);
+        }
+    }
     // first = (struct node *)malloc(sizeof(struct node));
     while (1)
     {
@@ -215,10 +206,10 @@ int main()
             printf("\nenter number:\n");
             scanf("%s", number);
             strcat(fname, " ");
-            strcat(fname,lname);
+            strcat(fname, lname);
             printf("adding");
-			fseek(fp,0,SEEK_END);
-			fprintf(fp, "\n%s,%s", fname, number);
+            fseek(fp, 0, SEEK_END);
+            fprintf(fp, "\n%s,%s", fname, number);
             printf("added");
             first = insAtEnd(fname, number, first);
             break;
@@ -243,11 +234,14 @@ int main()
             printf("\nwhom do you want to delete:\n");
             printf("\nenter first name:\n");
             scanf("%s", fname);
-            // printf("\nenter last name:\n");
+            printf("\nenter last name:\n");
             scanf("%s", lname);
             strcat(fname, " ");
-            strcat(fname,lname);
-            deleteAtIndex(fname,first);
+            strcat(fname, lname);
+            printf("=======");
+            printf("%s\n", fname);
+            printf("=======");
+            deleteAtIndex(fname, first);
             break;
         default:
             printf("\ninvalid option\n");
