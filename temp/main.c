@@ -49,7 +49,7 @@ void sort(struct node* first)
     struct node *nextnode;
 	char temp_name[20];
     char temp_num[20];
-	FILE *fp1 = fopen("shorted.csv", "a+");
+	FILE *fp1 = fopen("10_shorted.csv", "a+");
 	if (!fp1){
 		printf("Can't open file\n");}
 	else{
@@ -120,7 +120,26 @@ struct Node * deleteAtIndex(char *x, struct node *first){
           first = first->next;
           free(temp);
       }
-    
+
+      else
+      {
+          struct node *current  = first;
+          while(current->next != NULL)
+          {
+              //if yes, we need to delete the current->next node
+              if(current->next->fname == x)
+              {
+                  temp = current->next;
+                  //node will be disconnected from the linked list.
+                  current->next = current->next->next;
+                  free(temp);
+                  break;
+              }
+              //Otherwise, move the current node and proceed
+              else
+                  current = current->next;
+          }
+      }  
 
 
     // while (first != NULL)
@@ -147,7 +166,7 @@ int main()
     char fname[40];
     char lname[40];
 	struct node *first = (struct node *)malloc(sizeof(struct node));
-	FILE *fp = fopen("10k.csv", "a+");
+	FILE *fp = fopen("100-contacts.csv", "a+");
 	if (!fp){
 		printf("Can't open file\n");}
 	else
