@@ -4,6 +4,7 @@
 #include <string.h>
 char *name_var;
 char *num_var;
+
 struct node
 {
     char phoneNumber[15];
@@ -156,25 +157,22 @@ struct Node *deleteAtIndex(char *x, struct node *first)
 int exit_code(struct node *first){
     // sort(first);
     FILE *exit_file = fopen("exit_file.csv", "w+");
+    // fprintf(exit_file, "%s,%s\n", "name", "number");
     while (first != NULL)
     {
+        // printf("\n%s\t%s\n", first->fname, first->phoneNumber);
         fprintf(exit_file, "%s,%s", first->fname, first->phoneNumber);
-        // printf("==>>%s\t%s\n", first->fname, first->phoneNumber);
+        printf("==>>%s,%s\n", first->fname, first->phoneNumber);
         first = first->next;
     }   
-    close(exit_file);
+    fclose(exit_file);
+
 }
-int main()
-{
-    int option;
-    char number[15];
-    char fname[40];
-    char lname[40];
-    struct node *first = (struct node *)malloc(sizeof(struct node));
-        strcpy(first->fname,"Lisha Centini");
-        strcpy(first->phoneNumber,"703-235-39\n");
-    FILE *fp = fopen("100-contacts.csv", "a+");
-    if (!fp)
+int csv_to_ll(FILE *fptmp ,struct node *first){
+
+    strcpy(first->fname,"Lisha Centini");
+    strcpy(first->phoneNumber,"703-235-39\n");
+    if (fptmp < 0)
     {
         printf("Can't open file\n");
     }
@@ -183,7 +181,7 @@ int main()
         char buffer[1024];
         int row = 0;
         int column = 0;
-        while (fgets(buffer, 1024, fp))
+        while (fgets(buffer, 1024, fptmp))
         {
             column = 0;
             char *value = strtok(buffer, ",");
@@ -203,8 +201,21 @@ int main()
             // printf("==>>%s   %s",name_var, num_var);
             first = insAtEnd(name_var, num_var, first);
             row++;
+            first = first->next;
         }
     }
+}
+int main()
+{
+
+    FILE *fp = fopen("100-contacts.csv", "a+");
+    struct node *first = (struct node *)malloc(sizeof(struct node));
+    int option;
+    char number[15];
+    char fname[40];
+    char lname[40];
+    csv_to_ll(fp,first);
+
     while (1)
     {
         fflush(fp);
@@ -265,6 +276,6 @@ int main()
             printf("\ninvalid option\n");
             break;
         }
-        close(fp);
+        // close(fp);
     }
 }
