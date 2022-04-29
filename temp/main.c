@@ -49,7 +49,7 @@ void sort(struct node *first)
     struct node *nextnode;
     char temp_name[20];
     char temp_num[20];
-    FILE *fp1 = fopen("10_sorted.csv", "a+");
+    FILE *fp1 = fopen("10_sorted.csv", "w+");
     if (!fp1)
     {
         printf("Can't open file\n");
@@ -147,12 +147,14 @@ struct Node *deleteAtIndex(char *x, struct node *first)
     }
 }
 int exit_code(struct node *first){
-    sort(first);
-    FILE *exit_file = fopen("exit_file.csv", "a+");
+    // sort(first);
+    FILE *exit_file = fopen("exit_file.csv", "w+");
+    fprintf(exit_file, "%s,%s\n", "name", "number");
     while (first != NULL)
     {
-        printf("\n%s\t%s\n", first->fname, first->phoneNumber);
-        fprintf(exit_file, "\n%s,%s", first->fname, first->phoneNumber);
+        // printf("\n%s\t%s\n", first->fname, first->phoneNumber);
+        fprintf(exit_file, "%s,%s", first->fname, first->phoneNumber);
+        printf("==>>%s,%s\n", first->fname, first->phoneNumber);
         first = first->next;
     }   
     fclose(exit_file);
@@ -165,7 +167,7 @@ int main()
     char fname[40];
     char lname[40];
     struct node *first = (struct node *)malloc(sizeof(struct node));
-    FILE *fp = fopen("10k.csv", "a+");
+    FILE *fp = fopen("100-contacts.csv", "a+");
     if (!fp)
     {
         printf("Can't open file\n");
@@ -179,9 +181,9 @@ int main()
         {
             column = 0;
             row++;
+            char *value = strtok(buffer, ",");
             if (row == 1)
                 continue;
-            char *value = strtok(buffer, ",");
             while (value)
             {
                 if (column == 0)
@@ -195,7 +197,7 @@ int main()
                 value = strtok(NULL, ",");
                 column++;
             }
-
+            printf("==>>%s   %s",name_var, num_var);
             first = insAtEnd(name_var, num_var, first);
         }
     }
