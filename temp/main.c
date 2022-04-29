@@ -15,7 +15,7 @@ void display(struct node *first)
 {
     while (first != NULL)
     {
-        printf("\n%s\t%s\n", first->fname, first->phoneNumber);
+        printf("\n%s,%s\n", first->fname, first->phoneNumber);
         first = first->next;
     }
 }
@@ -47,22 +47,22 @@ struct node *insAtEnd(char *fn, char *phnum, struct node *first)
 void sort(struct node *first)
 {
     struct node *nextnode;
+    struct node *saveFirst;
     char temp_name[20];
     char temp_num[20];
-    FILE *fp1 = fopen("10_sorted.csv", "w+");
+    saveFirst = first;
+    FILE *fp1 = fopen("10_sorted.csv", "w");
     if (!fp1)
     {
         printf("Can't open file\n");
     }
     else
-    {
-
+    { 
         while (first != NULL)
         {
             nextnode = first->next;
             while (nextnode != NULL)
             {
-                fflush(fp1);
                 if (strcmp(first->fname, nextnode->fname) > 0)
                 {
                     strcpy(temp_name, first->fname);
@@ -77,12 +77,19 @@ void sort(struct node *first)
                 nextnode = nextnode->next;
             }
             first = first->next;
-            // shorted csv saving code
-            fseek(fp1, 0, SEEK_END);
-            fprintf(fp1, "%s,%s", temp_name, temp_num);
-            // shorted csv saving code
+            // sorted csv saving code
+            // sorted csv saving code
         }
     }
+    while(saveFirst != NULL)
+    {
+        fflush(fp1);
+        fseek(fp1, 0, SEEK_END);
+        saveFirst = saveFirst->next;        
+        printf("%s,%s", saveFirst->fname, saveFirst->phoneNumber);
+        fprintf(fp1, "%s,%s", saveFirst->fname, saveFirst->phoneNumber);
+    }
+    close(fp1);
 }
 
 int search(char *x, struct node *first)
@@ -149,16 +156,13 @@ struct Node *deleteAtIndex(char *x, struct node *first)
 int exit_code(struct node *first){
     // sort(first);
     FILE *exit_file = fopen("exit_file.csv", "w+");
-    fprintf(exit_file, "%s,%s\n", "name", "number");
     while (first != NULL)
     {
-        // printf("\n%s\t%s\n", first->fname, first->phoneNumber);
         fprintf(exit_file, "%s,%s", first->fname, first->phoneNumber);
-        printf("==>>%s,%s\n", first->fname, first->phoneNumber);
+        // printf("==>>%s\t%s\n", first->fname, first->phoneNumber);
         first = first->next;
     }   
-    fclose(exit_file);
-
+    close(exit_file);
 }
 int main()
 {
@@ -180,10 +184,7 @@ int main()
         while (fgets(buffer, 1024, fp))
         {
             column = 0;
-            row++;
             char *value = strtok(buffer, ",");
-            if (row == 1)
-                continue;
             while (value)
             {
                 if (column == 0)
@@ -197,11 +198,13 @@ int main()
                 value = strtok(NULL, ",");
                 column++;
             }
-            printf("==>>%s   %s",name_var, num_var);
+            // printf("==>>%s   %s",name_var, num_var);
+            strcpy(first->fname,"name");
+            strcpy(first->phoneNumber,"number");
             first = insAtEnd(name_var, num_var, first);
+            row++;
         }
     }
-    // first = (struct node *)malloc(sizeof(struct node));
     while (1)
     {
         fflush(fp);
@@ -242,7 +245,6 @@ int main()
             break;
         case 5:
             printf("\ndelete\n");
-            printf("\n---------------------working on it------------------------\n");
             printf("\nwhom do you want to delete:\n");
             printf("\nenter first name:\n");
             scanf("%s", fname);
@@ -257,8 +259,9 @@ int main()
             break;
         case 6:
             printf("\nExit\n");
-            exit_code(first);        
-            default:
+            exit_code(first);    
+            break;    
+        default:
             printf("\ninvalid option\n");
             break;
         }
