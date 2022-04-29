@@ -15,7 +15,7 @@ void display(struct node *first)
 {
     while (first != NULL)
     {
-        printf("\n%s,%s\n", first->fname, first->phoneNumber);
+        printf("\n%s,%s", first->fname, first->phoneNumber);
         first = first->next;
     }
 }
@@ -85,9 +85,9 @@ void sort(struct node *first)
     {
         fflush(fp1);
         fseek(fp1, 0, SEEK_END);
-        saveFirst = saveFirst->next;        
         printf("%s,%s", saveFirst->fname, saveFirst->phoneNumber);
         fprintf(fp1, "%s,%s", saveFirst->fname, saveFirst->phoneNumber);
+        saveFirst = saveFirst->next;        
     }
     close(fp1);
 }
@@ -171,6 +171,8 @@ int main()
     char fname[40];
     char lname[40];
     struct node *first = (struct node *)malloc(sizeof(struct node));
+        strcpy(first->fname,"Lisha Centini");
+        strcpy(first->phoneNumber,"703-235-39\n");
     FILE *fp = fopen("100-contacts.csv", "a+");
     if (!fp)
     {
@@ -199,8 +201,6 @@ int main()
                 column++;
             }
             // printf("==>>%s   %s",name_var, num_var);
-            strcpy(first->fname,"name");
-            strcpy(first->phoneNumber,"number");
             first = insAtEnd(name_var, num_var, first);
             row++;
         }
