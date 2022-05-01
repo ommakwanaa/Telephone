@@ -11,16 +11,6 @@ struct node
     char fname[40];
     struct node *next;
 };
-
-void display(struct node *first)
-{
-    while (first != NULL)
-    {
-        printf("\n%s,%s", first->fname, first->phoneNumber);
-        first = first->next;
-    }
-}
-
 struct node *insAtEnd(char *fn, char *phnum, struct node *first)
 { // insert at ending of linked list
     struct node *new;
@@ -45,8 +35,57 @@ struct node *insAtEnd(char *fn, char *phnum, struct node *first)
     save->next = new;
     return first;
 }
+int csv_to_ll(FILE *fptmp ,struct node *first){
+
+    strcpy(first->fname,"Lisha Centini");
+    strcpy(first->phoneNumber,"703-235-39\n");
+    if (fptmp < 0)
+    {
+        printf("Can't open file\n");
+    }
+    else
+    {
+        char buffer[1024];
+        int row = 0;
+        int column = 0;
+        while (fgets(buffer, 1024, fptmp))
+        {
+            column = 0;
+            char *value = strtok(buffer, ",");
+            while (value)
+            {
+                if (column == 0)
+                {
+                    name_var = value;
+                }
+                if (column == 1)
+                {
+                    num_var = value;
+                }
+                value = strtok(NULL, ",");
+                column++;
+            }
+            // printf("==>>%s   %s",name_var, num_var);
+            first = insAtEnd(name_var, num_var, first);
+            row++;
+            first = first->next;
+        }
+    }
+}
+
+void display(struct node *first)
+{
+    while (first != NULL)
+    {
+        printf("\n%s,%s", first->fname, first->phoneNumber);
+        first = first->next;
+    }
+}
+
 void sort(struct node *first)
 {
+    FILE *fp = fopen("100-contacts.csv", "a+");
+    csv_to_ll(fp,first);
     struct node *nextnode;
     struct node *saveFirst;
     char temp_name[20];
@@ -56,6 +95,7 @@ void sort(struct node *first)
     if (!fp1)
     {
         printf("Can't open file\n");
+
     }
     else
     { 
@@ -167,43 +207,6 @@ int exit_code(struct node *first){
     }   
     fclose(exit_file);
 
-}
-int csv_to_ll(FILE *fptmp ,struct node *first){
-
-    strcpy(first->fname,"Lisha Centini");
-    strcpy(first->phoneNumber,"703-235-39\n");
-    if (fptmp < 0)
-    {
-        printf("Can't open file\n");
-    }
-    else
-    {
-        char buffer[1024];
-        int row = 0;
-        int column = 0;
-        while (fgets(buffer, 1024, fptmp))
-        {
-            column = 0;
-            char *value = strtok(buffer, ",");
-            while (value)
-            {
-                if (column == 0)
-                {
-                    name_var = value;
-                }
-                if (column == 1)
-                {
-                    num_var = value;
-                }
-                value = strtok(NULL, ",");
-                column++;
-            }
-            // printf("==>>%s   %s",name_var, num_var);
-            first = insAtEnd(name_var, num_var, first);
-            row++;
-            first = first->next;
-        }
-    }
 }
 int main()
 {
