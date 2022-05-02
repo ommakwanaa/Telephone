@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <ctype.h>
 #include <string.h>
 char *name_var;
 char *num_var;
@@ -130,7 +131,7 @@ void sort(struct node *first)
         fprintf(fp1, "%s,%s", saveFirst->fname, saveFirst->phoneNumber);
         saveFirst = saveFirst->next;        
     }
-    close(fp1);
+    pclose(fp1);
 }
 
 int search(char *x, struct node *first)
@@ -216,6 +217,7 @@ int main()
     char number[15];
     char fname[40];
     char lname[40];
+    char ch;
     csv_to_ll(fp,first);
 
     while (1)
@@ -234,6 +236,12 @@ int main()
             printf("\nenter number:\n");
             scanf("%s", number);
             strcat(fname, " ");
+            ch = fname[0];
+            ch = toupper(ch);
+            fname[0] = ch;
+            ch = lname[0];
+            ch = toupper(ch);
+            lname[0] = ch;
             strcat(fname, lname);
             printf("adding");
             fseek(fp, 0, SEEK_END);
@@ -264,6 +272,12 @@ int main()
             printf("\nenter last name:\n");
             scanf("%s", lname);
             strcat(fname, " ");
+            ch = fname[0];
+            ch = toupper(ch);
+            fname[0] = ch;
+            ch = lname[0];
+            ch = toupper(ch);
+            lname[0] = ch;
             strcat(fname, lname);
             printf("=======");
             printf("%s\n", fname);
