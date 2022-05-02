@@ -170,7 +170,6 @@ struct Node *deleteAtIndex(char *x, struct node *first)
         first = first->next;
         free(temp);
     }
-
     else
     {
         struct node *current = first;
