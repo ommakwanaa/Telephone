@@ -12,6 +12,19 @@ struct node
     char fname[40];
     struct node *next;
 };
+//***********************************************************************//
+/*
+ * Function: insAtEnd           
+ * ----------------------------
+ *   Inserts the node at end of the linked list 
+ *
+ *   fn: Full name  
+ *   phnum: mobile nmber corresponding to the name
+ *   first: Head node of LinkedList
+ *
+ *   returns: Head Node of Linked list
+ */                                                                                             
+//************************************************************************//
 struct node *insAtEnd(char *fn, char *phnum, struct node *first)
 { // insert at ending of linked list
     struct node *new;
@@ -36,7 +49,20 @@ struct node *insAtEnd(char *fn, char *phnum, struct node *first)
     save->next = new;
     return first;
 }
-int csv_to_ll(FILE *fptmp ,struct node *first){
+
+//***********************************************************************//
+/*
+ * Function: csv_to_ll           
+ * ----------------------------
+ *   copies data of csv file at end of Linked List 
+ *
+ *   fptmp: name of the file from where to fetch data 
+ *   first: Head node of LinkedList
+ *
+ *   returns: void 
+ */                                                                                             
+//************************************************************************//
+void csv_to_ll(FILE *fptmp ,struct node *first){
 
     strcpy(first->fname,"Lisha Centini");
     strcpy(first->phoneNumber,"703-235-39\n");
@@ -73,7 +99,17 @@ int csv_to_ll(FILE *fptmp ,struct node *first){
         }
     }
 }
-
+//***********************************************************************//
+/*
+ * Function: display           
+ * ----------------------------
+ *   display data of csv by traversing through linkedlist
+ *
+ *   first: Head node of LinkedList
+ *
+ *   returns: void 
+ */                                                                                             
+//************************************************************************//
 void display(struct node *first)
 {
     while (first != NULL)
@@ -82,7 +118,17 @@ void display(struct node *first)
         first = first->next;
     }
 }
-
+//***********************************************************************//
+/*
+ * Function: sort           
+ * ----------------------------
+ *   short data and store in the linkedlist
+ *
+ *   first: Head node of LinkedList
+ *
+ *   returns: void 
+ */                                                                                             
+//************************************************************************//
 void sort(struct node *first)
 {
     FILE *fp = fopen("100-contacts.csv", "a+");
@@ -133,7 +179,18 @@ void sort(struct node *first)
     }
     pclose(fp1);
 }
-
+//***********************************************************************//
+/*
+ * Function: search           
+ * ----------------------------
+ *   search from the linkedlist
+ * 
+ *   x: full name with/without last name 
+ *   first: Head node of LinkedList
+ *
+ *   returns: void 
+ */                                                                                             
+//************************************************************************//
 int search(char *x, struct node *first)
 {
     bool mybool;
@@ -155,6 +212,18 @@ int search(char *x, struct node *first)
     else
         return false;
 }
+//***********************************************************************//
+/*
+ * Function: deleteAtIndex           
+ * ----------------------------
+ *   deleteAtIndex will delete the value from the perticular index 
+ * 
+ *   x: full name with last name 
+ *   first: Head node of LinkedList
+ *
+ *   returns: void 
+ */                                                                                             
+//************************************************************************//
 struct Node *deleteAtIndex(char *x, struct node *first)
 {
     printf("the char is %s \n", x);
@@ -194,6 +263,18 @@ struct Node *deleteAtIndex(char *x, struct node *first)
         }
     }
 }
+//***********************************************************************//
+/*
+ * Function: exit_code           
+ * ----------------------------
+ *   exit_code will help in saving the data after performing all the operations  
+ * 
+ * 
+ *   first: Head node of LinkedList
+ *
+ *   returns: void 
+ */                                                                                             
+//************************************************************************//
 int exit_code(struct node *first){
     // sort(first);
     FILE *exit_file = fopen("exit_file.csv", "w+");
