@@ -85,7 +85,7 @@ void display(struct node *first)
 void sort(struct node *first)
 {
     FILE *fp = fopen("100-contacts.csv", "a+");
-    csv_to_ll(fp,first);
+    // csv_to_ll(fp,first);
     struct node *nextnode;
     struct node *saveFirst;
     char temp_name[20];
