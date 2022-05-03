@@ -27,5 +27,4 @@ insertion.o: insertion.c headerfile.h
 sort.o: sort.c headerfile.h
 	$(CC) -c sort.c
 
-clean :
-	rm -f *.o
+
