@@ -3,10 +3,14 @@
 int main()
 {
     char llName[25] = "linkedList_";
-    for(char i='A';i<='Z';i++){
-        strcat(llName,i);
+    char i;
+    int j=0;
+
+    for(i='A';i<='Z';i++){
+        strcat(llName,&i);
     }
-    // for(char i='A';i<='Z';i++){
-    //     printf("%s\n",llName);
-    // }
+
+    for(j=0;j<=25;j++){
+        printf("%s\n",llName[j]);
+    }
 }

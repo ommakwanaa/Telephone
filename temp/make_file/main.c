@@ -7,14 +7,21 @@
 
 int main()
 {
-    // char llName[25];
-    // for(char i=0;i<25;i++){
-    //     strcpy(llName, "Linkedlist_");
-    //     strcpy(llName,i(char));
-    // }
-    // for(char i=0;i<25;i++){
-    //     printf("%s\n",llName);
-    // }
+    char llName[25] = "linkedList_";
+    struct node*  arrayOfLinkedList[25];
+    char i;
+    int j=0;
+
+    for(i='A';i<='Z';i++){
+        strcat(llName,&i);
+        arrayOfLinkedList[j] = (struct node *)malloc (sizeof(struct node));
+        strcpy(llName,"linkedList_");
+        j++;
+    }
+
+    for(int k=0;k<25;k++){
+        printf("%p\n",arrayOfLinkedList[k]);
+    }
     
     FILE *fp = fopen("100-contacts.csv", "a+");
     struct node *first = (struct node *)malloc(sizeof(struct node));
@@ -28,7 +35,7 @@ int main()
     while (1)
     {
         fflush(fp);
-        printf("\nEnter :\n1 to insert\n2 to search\n3 to read\n4 to sort\n5 to delete\n");
+        printf("\nEnter :\n1 to insert\n2 to search\n3 to read\n4 to sort\n5 to delete\n\n6 for exit code");
         scanf("%d", &option);
         switch (option)
         {

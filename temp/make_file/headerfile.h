@@ -14,6 +14,7 @@ struct  node
 
 char *name_var;
 char *num_var;
+struct node*  arrayOfLinkedList[25];
 
 struct node *insAtEnd(char *, char *, struct node *);
 void csv_to_ll(FILE * ,struct node *);
