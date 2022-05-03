@@ -5,6 +5,16 @@
 #include <string.h>
 
 
+struct  node
+{
+    char phoneNumber[15];
+    char fname[40];
+    struct node *next;
+};
+
+char *name_var;
+char *num_var;
+
 struct node *insAtEnd(char *, char *, struct node *);
 void csv_to_ll(FILE * ,struct node *);
 void display(struct node *);

@@ -3,17 +3,8 @@
 #include <stdbool.h>
 #include <ctype.h>
 #include <string.h>
+#include "headerfile.h"
 
-
-struct  node
-{
-    char phoneNumber[15];
-    char fname[40];
-    struct node *next;
-};
-
-char *name_var;
-char *num_var;
 int main()
 {
 
