@@ -7,7 +7,10 @@
 
 int main()
 {
-
+    for(int i=0;i<25;i++){
+        
+    }
+    
     FILE *fp = fopen("100-contacts.csv", "a+");
     struct node *first = (struct node *)malloc(sizeof(struct node));
     int option;
@@ -15,8 +18,6 @@ int main()
     char fname[40];
     char lname[40];
     char ch;
-
-
     csv_to_ll(fp,first);
 
     while (1)
