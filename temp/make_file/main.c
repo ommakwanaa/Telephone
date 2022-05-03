@@ -7,9 +7,14 @@
 
 int main()
 {
-    for(int i=0;i<25;i++){
-        
-    }
+    // char llName[25];
+    // for(char i=0;i<25;i++){
+    //     strcpy(llName, "Linkedlist_");
+    //     strcpy(llName,i(char));
+    // }
+    // for(char i=0;i<25;i++){
+    //     printf("%s\n",llName);
+    // }
     
     FILE *fp = fopen("100-contacts.csv", "a+");
     struct node *first = (struct node *)malloc(sizeof(struct node));
